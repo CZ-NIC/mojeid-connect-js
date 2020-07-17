@@ -1,0 +1,79 @@
+{
+  "name": "@cz-nic/mojeid-connect",
+  "version": "2.0.0",
+  "description": "MojeID LITE Connection library",
+  "main": "dist/mojeid_connect.2.0.0.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "check": "eslint src",
+    "test": "ava",
+    "test-coverage": "nyc ava",
+    "build": "webpack",
+    "watch": "webpack-dev-server --watch"
+  },
+  "files": [
+    "dist",
+    "examples"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zbohm/mojeid-connect-js.git"
+  },
+  "author": "Zdeněk Böhm <zdenek.bohm@nic.cz>",
+  "license": "GNU V3",
+  "bugs": {
+    "url": "https://github.com/zbohm/mojeid-connect-js/issues"
+  },
+  "homepage": "https://github.com/zbohm/mojeid-connect-js#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.10.1",
+    "@babel/core": "^7.10.2",
+    "@babel/preset-env": "^7.10.2",
+    "@babel/register": "^7.10.1",
+    "ava": "^2.4.0",
+    "babel-loader": "^8.1.0",
+    "browser-env": "^3.3.0",
+    "eslint": "^6.8.0",
+    "http-server": "^0.12.3",
+    "mock-local-storage": "^1.1.12",
+    "nyc": "^14.1.1",
+    "sinon": "^7.4.2",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "whatwg-fetch": "^3.0.0"
+  },
+  "dependencies": {
+    "jsrsasign": "^8.0.16"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ],
+    "ignore": [
+      "./test/*.js"
+    ]
+  },
+  "ava": {
+    "files": [
+      "./test/*.js"
+    ],
+    "source": [
+      "./src/*.js"
+    ],
+    "concurrency": 8,
+    "babel": {
+      "testOptions": {
+        "babelrc": false,
+        "configFile": false
+      }
+    },
+    "require": [
+      "@babel/register",
+      "./test/helpers/setup-browser-env.js",
+      "sinon"
+    ]
+  }
+}

@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Request for all attributes</title>
+  <script src="/dist/mojeid_connect.2.0.0.js" id="mojeid-connect-script" data-jsrsasign="/node_modules/jsrsasign/lib/jsrsasign-all-min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      function setMessage(class_name="", text="") {
+        const element = document.getElementById("message")
+        element.className = class_name;
+        element.textContent = text;
+      }
+
+      function parseClaims(clientClaims) {
+        var claims = {}
+        for (var name in clientClaims) {
+            claims[clientClaims[name][0]] = {'essential': clientClaims[name][1]}
+        }
+        return claims
+      }
+
+      var mojeID = mojeid_connect.createMojeidConnect({
+        clientName: "Request for all attributes",
+        clientIdName: "request-all-attribs",
+        parseClaimsCallback: parseClaims,
+        claims: [
+              // required
+              ['given_name', true],
+              ['family_name', true],
+              ['name', true],
+              // optional
+              ['email', false],
+              ['birthdate', false],
+              ['gender', false],
+              ['phone_number', false],
+              ['profile', false],
+              ['website', false],
+              ['address', false],
+
+              ['mojeid_username', false],
+              ['mojeid_organization', false],
+              ['mojeid_vat', false],
+              ['mojeid_ident_vat', false],
+              ['mojeid_ident_card', false],
+              ['mojeid_ident_pass', false],
+              ['mojeid_ident_ssn', false],
+              ['mojeid_isic', false],
+              ['mojeid_student', false],
+              ['mojeid_isds', false],
+              ['mojeid_is_adult', false],
+              ['mojeid_age', false],
+              ['mojeid_address_mail_verified', false],
+              ['mojeid_valid', false],
+              ['mojeid_email_notify', false],
+              ['mojeid_email_next', false],
+              ['mojeid_phone_office', false],
+              ['mojeid_phone_mobile', false],
+              ['mojeid_phone_home', false],
+              ['mojeid_phone_fax', false],
+              ['mojeid_public_pgp', false],
+              ['mojeid_bank_account', false],
+              ['mojeid_bank_account_iban', false],
+
+              ['mojeid_im_icq', false],
+              ['mojeid_im_skype', false],
+              ['mojeid_im_windows_live', false],
+              ['mojeid_im_jabber', false],
+              ['mojeid_im_google_talk', false],
+              ['mojeid_url_blog', false],
+              ['mojeid_url_office', false],
+              ['mojeid_url_rss', false],
+              ['mojeid_url_facebook', false],
+              ['mojeid_url_twiter', false],
+              ['mojeid_url_linkedin', false],
+              ['mojeid_url_instagram', false],
+              ['mojeid_url_pinterest', false],
+              ['mojeid_url_tumblr', false],
+              ['mojeid_url_wordpress', false],
+              ['mojeid_url_foursquare', false],
+              ['mojeid_url_youtube', false],
+              ['mojeid_url_blogger', false],
+              ['mojeid_url_gravatar', false],
+              ['mojeid_url_about_me', false],
+              ['mojeid_url_flickr', false],
+              ['mojeid_url_vimeo', false],
+
+              ['mojeid_address_def', false],
+              ['mojeid_address_def_street', false],
+              ['mojeid_address_def_street2', false],
+              ['mojeid_address_def_street3', false],
+              ['mojeid_address_def_city', false],
+              ['mojeid_address_def_state', false],
+              ['mojeid_address_def_postal_code', false],
+              ['mojeid_address_def_country', false],
+
+              // 'mojeid_address_mail', false],
+              ['mojeid_address_mail_street', false],
+              ['mojeid_address_mail_street2', false],
+              ['mojeid_address_mail_street3', false],
+              ['mojeid_address_mail_city', false],
+              ['mojeid_address_mail_state', false],
+              ['mojeid_address_mail_postal_code', false],
+              ['mojeid_address_mail_country', false],
+
+              ['mojeid_address_bill', false],
+              ['mojeid_address_bill_street', false],
+              ['mojeid_address_bill_street2', false],
+              ['mojeid_address_bill_street3', false],
+              ['mojeid_address_bill_city', false],
+              ['mojeid_address_bill_state', false],
+              ['mojeid_address_bill_postal_code', false],
+              ['mojeid_address_bill_country', false],
+
+              ['mojeid_address_ship', false],
+              ['mojeid_address_ship_company_name', false],
+              ['mojeid_address_ship_street', false],
+              ['mojeid_address_ship_street2', false],
+              ['mojeid_address_ship_street3', false],
+              ['mojeid_address_ship_city', false],
+              ['mojeid_address_ship_state', false],
+              ['mojeid_address_ship_postal_code', false],
+              ['mojeid_address_ship_country', false],
+
+              ['mojeid_address_ship2', false],
+              ['mojeid_address_ship2_company_name', false],
+              ['mojeid_address_ship2_street', false],
+              ['mojeid_address_ship2_street2', false],
+              ['mojeid_address_ship2_street3', false],
+              ['mojeid_address_ship2_city', false],
+              ['mojeid_address_ship2_state', false],
+              ['mojeid_address_ship2_postal_code', false],
+              ['mojeid_address_ship2_country', false],
+
+              ['mojeid_address_ship3', false],
+              ['mojeid_address_ship3_company_name', false],
+              ['mojeid_address_ship3_street', false],
+              ['mojeid_address_ship3_street2', false],
+              ['mojeid_address_ship3_street3', false],
+              ['mojeid_address_ship3_city', false],
+              ['mojeid_address_ship3_state', false],
+              ['mojeid_address_ship3_postal_code', false],
+              ['mojeid_address_ship3_country', false]
+        ],
+        registrationSuccessCallback: function () {
+          document.getElementById("button-prefill").removeAttribute("disabled")
+          setMessage()
+        },
+        registrationFailureCallback: function () {
+          setMessage("error", "Registration of client failed.")
+        },
+        formSuccessCallback: function () {
+          setMessage()
+        },
+        formFailureCallback: function (err) {
+          setMessage("error", "Incomming message failure: " + err.message)
+        },
+        formAccessDenidedCallback: function () {
+          setMessage("info", "Data hangover was canceled.")
+        }
+      });
+      document.getElementById("button-prefill").addEventListener("click", mojeID.requestAuthentication.bind(mojeID));
+    });
+  </script>
+  <style>
+    .button-frame {
+        margin-top: 2em;
+        margin-left: 21em;
+    }
+    form div {
+        margin-bottom: 0.6em;
+    }
+    form label {
+        /* To make sure that all labels have the same size and are properly aligned */
+        display: inline-block;
+        width: 20em;
+        text-align: right;
+        margin-right: 1em;
+    }
+    .error {
+      color: red;
+    }
+    .info {
+      color: darkorange;
+    }
+    label:not(.required):not(.extended-info) {
+      position: relative;
+      left: -1em;
+    }
+    label.required:after {
+      content: " *";
+      color: red;
+      font-size: 120%;
+      font-weight: bold;
+    }
+    label.extended-info:after {
+      content: " 🛈";
+      color: darkorange;
+      font-size: 120%;
+    }
+    form label {
+      vertical-align: top;
+    }
+    section h3 {
+      margin-left: 18em;
+    }
+  </style>
+ </head>
+ <body>
+  <h1>Request for all attributes</h1>
+  <form>
+
+    <section>
+      <h3>Basic data</h3>
+      <div>
+        <label class="required">given_name:</label>
+        <input type="text" id="given_name"/>
+      </div>
+      <div>
+        <label class="required">family_name:</label>
+        <input type="text" id="family_name"/>
+      </div>
+      <div>
+        <label class="required">name:</label>
+        <input type="text" id="name"/>
+      </div>
+
+      <div>
+        <label>email:</label>
+        <input type="text" id="email"/>
+      </div>
+      <div>
+        <label>birthdate:</label>
+        <input type="text" id="birthdate"/>
+      </div>
+      <div>
+        <label>gender:</label>
+        <input type="text" id="gender"/>
+      </div>
+      <div>
+        <label>phone_number:</label>
+        <input type="text" id="phone_number"/>
+      </div>
+      <div>
+        <label>profile:</label>
+        <input type="text" id="profile"/>
+      </div>
+      <div>
+        <label>website:</label>
+        <input type="text" id="website"/>
+      </div>
+      <div>
+        <label>address:</label>
+        <textarea cols="32" rows="5" id="address"></textarea>
+      </div>
+    </section>
+
+    <section>
+        <h3>Identification data</h3>
+        <div>
+          <label>mojeid_username:</label>
+          <input type="text" id="mojeid_username"/>
+        </div>
+        <div>
+          <label>mojeid_organization:</label>
+          <input type="text" id="mojeid_organization"/>
+        </div>
+        <div>
+          <label>mojeid_vat:</label>
+          <input type="text" id="mojeid_vat"/>
+        </div>
+        <div>
+          <label>mojeid_ident_vat:</label>
+          <input type="text" id="mojeid_ident_vat"/>
+        </div>
+        <div>
+          <label>mojeid_ident_card:</label>
+          <input type="text" id="mojeid_ident_card"/>
+        </div>
+        <div>
+          <label>mojeid_ident_pass:</label>
+          <input type="text" id="mojeid_ident_pass"/>
+        </div>
+        <div>
+          <label>mojeid_ident_ssn:</label>
+          <input type="text" id="mojeid_ident_ssn"/>
+        </div>
+        <div title="The value is handovered only for extended client.">
+          <label class="extended-info">mojeid_isic:</label>
+          <input type="text" id="mojeid_isic"/>
+        </div>
+        <div title="The value is handovered only for extended client.">
+          <label class="extended-info">mojeid_student:</label>
+          <input type="text" id="mojeid_student"/>
+        </div>
+        <div title="The value is handovered only for extended client.">
+          <label class="extended-info">mojeid_valid:</label>
+          <input type="text" id="mojeid_valid"/>
+        </div>
+        <div>
+          <label>mojeid_isds:</label>
+          <input type="text" id="mojeid_isds"/>
+        </div>
+        <div>
+          <label>mojeid_is_adult:</label>
+          <input type="text" id="mojeid_is_adult"/>
+        </div>
+        <div>
+          <label>mojeid_age:</label>
+          <input type="text" id="mojeid_age"/>
+        </div>
+        <div>
+          <label>mojeid_address_mail_verified:</label>
+          <input type="text" id="mojeid_address_mail_verified"/>
+        </div>
+        <div>
+          <label>mojeid_email_notify:</label>
+          <input type="text" id="mojeid_email_notify"/>
+        </div>
+        <div>
+          <label>mojeid_email_next:</label>
+          <input type="text" id="mojeid_email_next"/>
+        </div>
+        <div>
+          <label>mojeid_phone_office:</label>
+          <input type="text" id="mojeid_phone_office"/>
+        </div>
+        <div>
+          <label>mojeid_phone_mobile:</label>
+          <input type="text" id="mojeid_phone_mobile"/>
+        </div>
+        <div>
+          <label>mojeid_phone_home:</label>
+          <input type="text" id="mojeid_phone_home"/>
+        </div>
+        <div>
+          <label>mojeid_phone_fax:</label>
+          <input type="text" id="mojeid_phone_fax"/>
+        </div>
+        <div>
+          <label>mojeid_public_pgp:</label>
+          <textarea cols="68" rows="6" id="mojeid_public_pgp"></textarea>
+        </div>
+        <div>
+          <label>mojeid_bank_account:</label>
+          <input type="text" id="mojeid_bank_account"/>
+        </div>
+        <div>
+          <label>mojeid_bank_account_iban:</label>
+          <input type="text" id="mojeid_bank_account_iban"/>
+        </div>
+    </section>
+
+    <section>
+        <h3>Social data</h3>
+        <div>
+          <label>mojeid_im_icq:</label>
+          <input type="text" id="mojeid_im_icq"/>
+        </div>
+        <div>
+          <label>mojeid_im_skype:</label>
+          <input type="text" id="mojeid_im_skype"/>
+        </div>
+        <div>
+          <label>mojeid_im_windows_live:</label>
+          <input type="text" id="mojeid_im_windows_live"/>
+        </div>
+        <div>
+          <label>mojeid_im_jabber:</label>
+          <input type="text" id="mojeid_im_jabber"/>
+        </div>
+        <div>
+          <label>mojeid_im_google_talk:</label>
+          <input type="text" id="mojeid_im_google_talk"/>
+        </div>
+        <div>
+          <label>mojeid_url_blog:</label>
+          <input type="text" id="mojeid_url_blog"/>
+        </div>
+        <div>
+          <label>mojeid_url_office:</label>
+          <input type="text" id="mojeid_url_office"/>
+        </div>
+        <div>
+          <label>mojeid_url_rss:</label>
+          <input type="text" id="mojeid_url_rss"/>
+        </div>
+        <div>
+          <label>mojeid_url_facebook:</label>
+          <input type="text" id="mojeid_url_facebook"/>
+        </div>
+        <div>
+          <label>mojeid_url_twiter:</label>
+          <input type="text" id="mojeid_url_twiter"/>
+        </div>
+        <div>
+          <label>mojeid_url_linkedin:</label>
+          <input type="text" id="mojeid_url_linkedin"/>
+        </div>
+        <div>
+          <label>mojeid_url_instagram:</label>
+          <input type="text" id="mojeid_url_instagram"/>
+        </div>
+        <div>
+          <label>mojeid_url_pinterest:</label>
+          <input type="text" id="mojeid_url_pinterest"/>
+        </div>
+        <div>
+          <label>mojeid_url_tumblr:</label>
+          <input type="text" id="mojeid_url_tumblr"/>
+        </div>
+        <div>
+          <label>mojeid_url_wordpress:</label>
+          <input type="text" id="mojeid_url_wordpress"/>
+        </div>
+        <div>
+          <label>mojeid_url_foursquare:</label>
+          <input type="text" id="mojeid_url_foursquare"/>
+        </div>
+        <div>
+          <label>mojeid_url_youtube:</label>
+          <input type="text" id="mojeid_url_youtube"/>
+        </div>
+        <div>
+          <label>mojeid_url_blogger:</label>
+          <input type="text" id="mojeid_url_blogger"/>
+        </div>
+        <div>
+          <label>mojeid_url_gravatar:</label>
+          <input type="text" id="mojeid_url_gravatar"/>
+        </div>
+        <div>
+          <label>mojeid_url_about_me:</label>
+          <input type="text" id="mojeid_url_about_me"/>
+        </div>
+        <div>
+          <label>mojeid_url_flickr:</label>
+          <input type="text" id="mojeid_url_flickr"/>
+        </div>
+        <div>
+          <label>mojeid_url_vimeo:</label>
+          <input type="text" id="mojeid_url_vimeo"/>
+        </div>
+    </section>
+
+    <section>
+        <h3>Default address</h3>
+        <div>
+          <label>mojeid_address_def:</label>
+          <textarea cols="32" rows="5" id="mojeid_address_def"></textarea>
+        </div>
+        <div>
+          <label>mojeid_address_def_street:</label>
+          <input type="text" id="mojeid_address_def_street"/>
+        </div>
+        <div>
+          <label>mojeid_address_def_street2:</label>
+          <input type="text" id="mojeid_address_def_street2"/>
+        </div>
+        <div>
+          <label>mojeid_address_def_street3:</label>
+          <input type="text" id="mojeid_address_def_street3"/>
+        </div>
+        <div>
+          <label>mojeid_address_def_city:</label>
+          <input type="text" id="mojeid_address_def_city"/>
+        </div>
+        <div>
+          <label>mojeid_address_def_state:</label>
+          <input type="text" id="mojeid_address_def_state"/>
+        </div>
+        <div>
+          <label>mojeid_address_def_postal_code:</label>
+          <input type="text" id="mojeid_address_def_postal_code"/>
+        </div>
+        <div>
+          <label>mojeid_address_def_country:</label>
+          <input type="text" id="mojeid_address_def_country"/>
+        </div>
+    </section>
+
+    <section>
+        <h3>Mail address</h3>
+        <div>
+          <label>mojeid_address_mail_street:</label>
+          <input type="text" id="mojeid_address_mail_street"/>
+        </div>
+        <div>
+          <label>mojeid_address_mail_street2:</label>
+          <input type="text" id="mojeid_address_mail_street2"/>
+        </div>
+        <div>
+          <label>mojeid_address_mail_street3:</label>
+          <input type="text" id="mojeid_address_mail_street3"/>
+        </div>
+        <div>
+          <label>mojeid_address_mail_city:</label>
+          <input type="text" id="mojeid_address_mail_city"/>
+        </div>
+        <div>
+          <label>mojeid_address_mail_state:</label>
+          <input type="text" id="mojeid_address_mail_state"/>
+        </div>
+        <div>
+          <label>mojeid_address_mail_postal_code:</label>
+          <input type="text" id="mojeid_address_mail_postal_code"/>
+        </div>
+        <div>
+          <label>mojeid_address_mail_country:</label>
+          <input type="text" id="mojeid_address_mail_country"/>
+        </div>
+    </section>
+
+    <section>
+        <h3>Bill address</h3>
+        <div>
+          <label>mojeid_address_bill:</label>
+          <textarea cols="32" rows="5" id="mojeid_address_bill"></textarea>
+        </div>
+        <div>
+          <label>mojeid_address_bill_street:</label>
+          <input type="text" id="mojeid_address_bill_street"/>
+        </div>
+        <div>
+          <label>mojeid_address_bill_street2:</label>
+          <input type="text" id="mojeid_address_bill_street2"/>
+        </div>
+        <div>
+          <label>mojeid_address_bill_street3:</label>
+          <input type="text" id="mojeid_address_bill_street3"/>
+        </div>
+        <div>
+          <label>mojeid_address_bill_city:</label>
+          <input type="text" id="mojeid_address_bill_city"/>
+        </div>
+        <div>
+          <label>mojeid_address_bill_state:</label>
+          <input type="text" id="mojeid_address_bill_state"/>
+        </div>
+        <div>
+          <label>mojeid_address_bill_postal_code:</label>
+          <input type="text" id="mojeid_address_bill_postal_code"/>
+        </div>
+        <div>
+          <label>mojeid_address_bill_country:</label>
+          <input type="text" id="mojeid_address_bill_country"/>
+        </div>
+    </section>
+
+    <section>
+        <h3>Ship address</h3>
+        <div>
+          <label>mojeid_address_ship:</label>
+          <textarea cols="32" rows="5" id="mojeid_address_ship"></textarea>
+        </div>
+        <div>
+          <label>mojeid_address_ship_company_name:</label>
+          <input type="text" id="mojeid_address_ship_company_name"/>
+        </div>
+        <div>
+          <label>mojeid_address_ship_street:</label>
+          <input type="text" id="mojeid_address_ship_street"/>
+        </div>
+        <div>
+          <label>mojeid_address_ship_street2:</label>
+          <input type="text" id="mojeid_address_ship_street2"/>
+        </div>
+        <div>
+          <label>mojeid_address_ship_street3:</label>
+          <input type="text" id="mojeid_address_ship_street3"/>
+        </div>
+        <div>
+          <label>mojeid_address_ship_city:</label>
+          <input type="text" id="mojeid_address_ship_city"/>
+        </div>
+        <div>
+          <label>mojeid_address_ship_state:</label>
+          <input type="text" id="mojeid_address_ship_state"/>
+        </div>
+        <div>
+          <label>mojeid_address_ship_postal_code:</label>
+          <input type="text" id="mojeid_address_ship_postal_code"/>
+        </div>
+        <div>
+          <label>mojeid_address_ship_country:</label>
+          <input type="text" id="mojeid_address_ship_country"/>
+        </div>
+    </section>
+
+    <section>
+        <h3>Ship address nr. 2</h3>
+        <div>
+          <label>mojeid_address_ship2:</label>
+          <textarea cols="32" rows="5" id="mojeid_address_ship2"></textarea>
+        </div>
+        <div>
+          <label>mojeid_address_ship2_company_name:</label>
+          <input type="text" id="mojeid_address_ship2_company_name"/>
+        </div>
+        <div>
+          <label>mojeid_address_ship2_street:</label>
+          <input type="text" id="mojeid_address_ship2_street"/>
+        </div>
+        <div>
+          <label>mojeid_address_ship2_street2:</label>
+          <input type="text" id="mojeid_address_ship2_street2"/>
+        </div>
+        <div>
+          <label>mojeid_address_ship2_street3:</label>
+          <input type="text" id="mojeid_address_ship2_street3"/>
+        </div>
+        <div>
+          <label>mojeid_address_ship2_city:</label>
+          <input type="text" id="mojeid_address_ship2_city"/>
+        </div>
+        <div>
+          <label>mojeid_address_ship2_state:</label>
+          <input type="text" id="mojeid_address_ship2_state"/>
+        </div>
+        <div>
+          <label>mojeid_address_ship2_postal_code:</label>
+          <input type="text" id="mojeid_address_ship2_postal_code"/>
+        </div>
+        <div>
+          <label>mojeid_address_ship2_country:</label>
+          <input type="text" id="mojeid_address_ship2_country"/>
+        </div>
+    </section>
+
+    <section>
+        <h3>Ship address nr. 3</h3>
+        <div>
+          <label>mojeid_address_ship3:</label>
+          <textarea cols="32" rows="5" id="mojeid_address_ship3"></textarea>
+        </div>
+        <div>
+          <label>mojeid_address_ship3_company_name:</label>
+          <input type="text" id="mojeid_address_ship3_company_name"/>
+        </div>
+        <div>
+          <label>mojeid_address_ship3_street:</label>
+          <input type="text" id="mojeid_address_ship3_street"/>
+        </div>
+        <div>
+          <label>mojeid_address_ship3_street2:</label>
+          <input type="text" id="mojeid_address_ship3_street2"/>
+        </div>
+        <div>
+          <label>mojeid_address_ship3_street3:</label>
+          <input type="text" id="mojeid_address_ship3_street3"/>
+        </div>
+        <div>
+          <label>mojeid_address_ship3_city:</label>
+          <input type="text" id="mojeid_address_ship3_city"/>
+        </div>
+        <div>
+          <label>mojeid_address_ship3_state:</label>
+          <input type="text" id="mojeid_address_ship3_state"/>
+        </div>
+        <div>
+          <label>mojeid_address_ship3_postal_code:</label>
+          <input type="text" id="mojeid_address_ship3_postal_code"/>
+        </div>
+        <div>
+          <label>mojeid_address_ship3_country:</label>
+          <input type="text" id="mojeid_address_ship3_country"/>
+        </div>
+    </section>
+  </form>
+
+  <div class="button-frame">
+    <button id="button-prefill" disabled>Pre-fill by mojeID</button>
+    <div id="message" class="info">Wait for client registration...</div>
+    <noscript>
+        <p class="error">Javascript must be enabled to pre-fill the form.</p>
+    </noscript>
+  </div>
+
+</body>
+</html>
