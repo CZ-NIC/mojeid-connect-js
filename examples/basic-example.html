@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Basic example</title>
+  <script src="/dist/mojeid_connect.2.0.0.js" id="mojeid-connect-script" data-jsrsasign="/node_modules/jsrsasign/lib/jsrsasign-all-min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      function setMessage(class_name="", text="") {
+        const element = document.getElementById("message")
+        element.className = class_name;
+        element.textContent = text;
+      }
+
+      var mojeID = mojeid_connect.createMojeidConnect({
+        clientName: "Basic example",
+        claims: [
+            'phone_number',
+            'family_name',
+            'given_name',
+            'nickname',
+            'email',
+            'address',
+            'birthdate',
+            'gender',
+            'website',
+            'profile'
+        ],
+        registrationSuccessCallback: function () {
+          document.getElementById("button-prefill").removeAttribute("disabled")
+          setMessage()
+        },
+        registrationFailureCallback: function () {
+          setMessage("error", "Registration of client failed.")
+        },
+        formSuccessCallback: function () {
+          setMessage()
+        },
+        formFailureCallback: function (err) {
+          setMessage("error", "Incomming message failure: " + err.message)
+        },
+        formAccessDenidedCallback: function () {
+          setMessage("info", "Data hangover was canceled.")
+        }
+      })
+      document.getElementById("button-prefill").addEventListener("click", mojeID.requestAuthentication.bind(mojeID))
+    })
+  </script>
+  <style>
+    .button-frame {
+        margin-top: 1em;
+        margin-left: 11em;
+    }
+    form div {
+        margin-bottom: 0.6em;
+    }
+    form label {
+        /* To make sure that all labels have the same size and are properly aligned */
+        display: inline-block;
+        width: 10em;
+        text-align: right;
+        margin-right: 1em;
+    }
+    .error {
+      color: red;
+    }
+    .info {
+      color: darkorange;
+    }
+  </style>
+ </head>
+ <body>
+  <h1>Basic example</h1>
+  <form>
+   <div>
+     <label>Name:</label>
+     <input type="text" id="given_name"/>
+   </div>
+   <div>
+     <label>Family name:</label>
+     <input type="text" id="family_name"/>
+   </div>
+   <div>
+     <label>Phone:</label>
+     <input type="text" id="phone_number"/>
+   </div>
+   <div>
+     <label>Email:</label>
+     <input type="text" id="email"/>
+   </div>
+   <div>
+     <label>Address:</label>
+     <textarea cols="25" rows="5" id="address"></textarea>
+   </div>
+   <div>
+     <label>Birth date:</label>
+     <input type="text" id="birthdate"/>
+   </div>
+   <div>
+     <label>Gender:</label>
+     <input type="text" id="gender"/>
+   </div>
+   <div>
+     <label>Nickname:</label>
+     <input type="text" id="nickname"/>
+   </div>
+   <div>
+     <label>Website:</label>
+     <input type="text" id="website"/>
+   </div>
+   <div>
+     <label>Personal profile:</label>
+     <input type="text" id="profile"/>
+   </div>
+  </form>
+  <div class="button-frame">
+      <button id="button-prefill" disabled>Pre-fill by mojeID</button>
+      <div id="message" class="info">Wait for client registration...</div>
+  </div>
+ </body>
+</html>
